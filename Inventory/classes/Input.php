@@ -15,14 +15,8 @@ class Text {
     var $max;
     var $attributes;
 
-    function __construct(	$name = null,
-                             $id = null,
-                             $placeholder = null,
-                             $length = null,
-                             $min = null,
-                             $max = null,
-                             $attributes = null,
-                             $value = null	){
+    function __construct(	$id = null, $placeholder = null, $value = null, $name = null, $length = null, $min = null,
+							 $max = null, $attributes = null){
 
         $this->length = $length;
         $this->value = $value;

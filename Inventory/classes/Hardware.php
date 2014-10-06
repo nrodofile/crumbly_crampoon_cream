@@ -8,20 +8,6 @@ include_once "Network.php";
 include_once "Note.php";
 include_once "Vulnerability.php";
 
-class Connection{
-	private $idHardware;
-	private $Connections;
-
-	function __construct($Connections=null, $idHardware=null) {
-		$this->Connections = $Connections;
-		$this->idHardware = $idHardware;
-	}
-
-	function connected($idHardware){
-		return null;
-	}
-}
-
 class Hardware{
     private $idHardware;
     private $hostname;
@@ -37,16 +23,60 @@ class Hardware{
 
 	function __construct($idHardware, $hostname=null, $ip_address=null, $mac_address=null, $OperatingSystem=null,
 						 $applications=null, $notes=null, $vulnerability=null) {
-		$this->idHardware = new Hidden($id = "idHardware_id", $placeholder = "Hardware_ID", $value = $idHardware);
-		$this->hostname = new Text($id = "hostname_id", $placeholder = "Hostname", $value = $hostname);
-		$this->ip_address = new Text($id = "ip_address_id", $placeholder = "IP Address", $value = $ip_address);
-		$this->mac_address = new Text($id = "mac_address_id", $placeholder = "MAC Address", $value = $mac_address);
-		$this->OperatingSystem = new Text($id = "OperatingSystem_id", $placeholder = "Operating System", $value = $OperatingSystem);
+		$this->idHardware = new Hidden("idHardware_id", "Hardware_ID", $idHardware);
+		$this->hostname = new Text("hostname_id", "Hostname", $value = $hostname);
+		$this->ip_address = new Text("ip_address_id", "IP Address", $ip_address);
+		$this->mac_address = new Text("mac_address_id", "MAC Address", $mac_address);
+		$this->OperatingSystem = new OperatingSystem($OperatingSystem);
 		$this->network = Network::hardware($idHardware);
 		$this->applications = Application::hardware($idHardware);
 		$this->connections = Connection::connected($idHardware);
 		$this->notes = Note::hardware($idHardware);
 		$this->vulnerability = Vulnerability::hardware($idHardware);
+	}
+
+	/**
+	 * @return Hidden value
+	 */
+	public function idHardware($value=Null) {
+		if (empty($value)) {
+			return $this->idHardware;
+		} else {
+			$this->idHardware->value = $value;
+		}
+	}
+
+	/**
+	 * @return Text value
+	 */
+	public function hostname($value=Null) {
+		if (empty($value)) {
+			return $this->hostname->value;
+		} else {
+			$this->hostname->value = $value;
+		}
+	}
+
+	/**
+	 * @return Text value
+	 */
+	public function ipAddress($value=Null) {
+		if (empty($value)) {
+			return $this->ip_address->value;
+		} else {
+			$this->ip_address->value = $value;
+		}
+	}
+
+	/**
+	 * @return Text value
+	 */
+	public function macAddress($value=Null) {
+		if (empty($value)) {
+			return $this->mac_address->value;
+		} else {
+			$this->mac_address->value = $value;
+		}
 	}
 
 	function network($idNetwork){
@@ -63,5 +93,53 @@ class Hardware{
 		} else {
 			return $this->connections;
 		}
+	}
+
+	function __toString() {
+		return
+			"Hardware_id: ".$this->idHardware->value."<br/>".
+			"Hostname: ".$this->hostname->value."<br/>".
+			"IP_Address: ".$this->ip_address->value."<br/>".
+			"Mac_Address: ".$this->mac_address->value."<br/>".
+			"Network_Address: ".$this->network->address()."<br/>".
+			"Operating_System: ".$this->OperatingSystem->idSoftware()."<br/>".
+			"Connected: ".count($this->connections)."<br/>".
+			"Applications: ".count($this->applications)."<br/>".
+			"Notes: ".count($this->notes)."<br/>".
+			"Vulnerabilites: ".count($this->vulnerability)."<br/>";
+	}
+}
+
+class Connection extends Hardware{
+	private $idHardware;
+	private $Connections;
+
+	function __construct($Connections=null, $idHardware=null) {
+		$this->Connections = $Connections;
+		$this->idHardware = $idHardware;
+	}
+
+	/**
+	 * @return null
+	 */
+	public function connections() {
+		return $this->Connections;
+	}
+
+	/**
+	 * @return null
+	 */
+	public function idHardware() {
+		return $this->idHardware;
+	}
+
+	public function count() {
+		return "100";
+	}
+
+
+
+	function connected($idHardware){
+		return null;
 	}
 }

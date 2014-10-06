@@ -15,21 +15,66 @@ class Network{
 	private $notes;
 	private $vulnerability;
 
-	function __construct( $idNetwork = null, $address = null, $hardware = null, $name = null) {
-		$this->idNetwork = new Hidden($id = "idNetwork_id", $placeholder = "Network ID", $value = $idNetwork);
-		$this->address = new Text($id = "address_id", $placeholder = "Address", $value = $address);
-		$this->name = new Text($id = "name_id", $placeholder = "Name", $value = $name);
+	function __construct( $idNetwork = null, $address = null, $name = null) {
+		$this->idNetwork = new Hidden("idNetwork_id", "Network ID", $idNetwork);
+		$this->address = new Text("address_id", "Address", $address);
+		$this->name = new Text("name_id", "Name", $name);
 		$this->hardware = Hardware::network($idNetwork);
 		$this->notes = Note::network($idNetwork);
 		$this->vulnerability = Vulnerability::network($idNetwork);
 	}
 
+	/**
+	 * @return Text value
+	 */
+	public function address($value=Null){
+		if (empty($value)){
+			return $this->address->value;
+		} else {
+			$this->address->value = $value;
+		}
+	}
+
+	/**
+	 * @return Hidden
+	 */
+	public function idNetwork($value=Null) {
+		if (empty($value)) {
+			return $this->idNetwork->value;
+		} else {
+			$this->idNetwork->value = $value;
+		}
+	}
+
+	/**
+	 * @return Text
+	 */
+	public function name($value=Null) {
+		if (empty($value)) {
+			return $this->name->value;
+		} else {
+			$this->name->value = $value;
+		}
+	}
+
 	function hardware($idHardware){
-		echo $idHardware;
+		echo $idHardware."Network_Hardware\n";
 		return new self();
 	}
 
 	function select(){
 		return "select";
 	}
+
+	function __toString() {
+		return
+			"idNetwork: ".$this->idNetwork->value."<br/>".
+			"address: ".$this->address->value."<br/>".
+			"name: ".$this->name->value."<br/>".
+			"hardware: ".count($this->hardware)."<br/>".
+			"notes: ".count($this->notes)."<br/>".
+			"vulnerability: ".count($this->vulnerability)."<br/>";
+	}
+
+
 }

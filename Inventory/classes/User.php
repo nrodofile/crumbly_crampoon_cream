@@ -3,6 +3,8 @@
  * User: Nicholas Rodofile
  */
 
+include_once "Input.php";
+
 class User {
     private $idUser;
     private $username;
@@ -10,16 +12,83 @@ class User {
     private $password;
     private $salt;
 
-	function __construct($idUser, $name, $password, $salt, $username) {
-		$this->idUser = Hidden($id = "idUser_id", $placeholder = "User ID", $value = $idUser);
-		$this->name = Text($id = "name_id", $placeholder = "Name", $value = $name);
-		$this->password = Password($id = "password_id", $placeholder = "Password", $value = $password);
-		$this->salt = Password($id = "salt_id", $placeholder = "Salt", $value = $salt);
-		$this->username = Text($id = "username_id", $placeholder = "Username", $value = $username);
+	function __construct($idUser=Null, $username=Null, $name=Null, $password=Null, $salt=Null) {
+		$this->idUser = new Hidden("idUser_id","User ID",$idUser);
+		$this->name = new Text("name_id", "Name", $name);
+		$this->password = new Password("password_id", "Password", $password);
+		$this->salt = new Password("salt_id","Salt", $salt);
+		$this->username = new Text("username_id", "Username", $username);
 	}
 
 	function by_id($idUser){
 		echo $idUser;
-		return null;
+		return new self();
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function IdUser($value=Null) {
+		if (empty($value)) {
+			return $this->idUser->value;
+		} else {
+			$this->idUser->value = $value;
+		}
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function name($value=Null) {
+		if (empty($value)) {
+			//echo $this->name->input();
+			return $this->name->value;
+		}else {
+			$this->name->value = $value;
+		}
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function password($value=Null) {
+		if (empty($value)) {
+			return $this->password->value;
+		}else {
+			$this->password->value = $value;
+		}
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function salt($value=Null) {
+		if (empty($value)) {
+			return $this->salt->value;
+		}else {
+			$this->salt->value = $value;
+		}
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function username($value=Null) {
+		if (empty($value)) {
+			return $this->username->value;
+		}else {
+			$this->username->value = $value;
+		}
+	}
+
+	function __toString() {
+		return
+			"idUser: ".$this->idUser->value."<br/>".
+			"name: ".$this->name->value."<br/>".
+			"password: ".$this->password->value."<br/>".
+			"salt: ".$this->salt->value."<br/>".
+			"username: ".$this->username->value."<br/>";
+	}
+
+
 } 
