@@ -6,7 +6,7 @@ include_once "Input.php";
 include_once "Software.php";
 include_once "Note.php";
 
-class Fix{
+class Fix extends Model{
     private $idFix;
     private $description;
 	private $software;

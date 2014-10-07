@@ -40,8 +40,6 @@ echo "<h1>Operating System</h1>";
 echo $os;
 echo "<h1>Application</h1>";
 echo $app;
-echo "<h1>Application</h1>";
-echo $app;
 echo "<h1>Vulnerability</h1>";
 echo $vul;
 echo "<h1>Fix</h1>";

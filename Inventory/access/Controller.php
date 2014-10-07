@@ -3,8 +3,13 @@
  * User: Nicholas Rodofile
  */
 
-class Controller {
+abstract class Controller {
 	protected  $conn;
+
+	abstract public function create($model);
+	abstract public function read($model);
+	abstract public function update($model);
+	abstract public function delete($model);
 
 	function __construct() {
 		try {

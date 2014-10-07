@@ -3,23 +3,20 @@
  * User: Nicholas Rodofile
  */
 
-include_once "utilities/utilities.php";
-include_once "classes/User.php";
 include_once "Controller.php";
+include_once "utilities/utilities.php";
+include_once "classes/Fix.php";
 
-class UserController extends Controller {
+class FixController extends Controller{
 
-	function create($user){
+	public function create($fix) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`create_User`(:idUser, :username, :name, :password, :salt);";
+				$statement = "CALL `NetworkInventory`.`create_Fix`(:idFix, :description);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idUser', $user->idUser());
-				$stmt->bindParam(':username', $user->username());
-				$stmt->bindParam(':name', $user->name());
-				$stmt->bindParam(':password', $user->password());
-				$stmt->bindParam(':salt', $user->salt());
+				$stmt->bindParam(':idFix', $fix->idFix());
+				$stmt->bindParam(':description', $fix->description());
 				$stmt->execute();
 				$dbh = null;
 			} catch (PDOException $e) {
@@ -32,13 +29,13 @@ class UserController extends Controller {
 		}
 	}
 
-	function read($user){
+	public function read($fix) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`read_User`(:idUser);";
+				$statement = "CALL `NetworkInventory`.`read_Fix`(:idFix, :description);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idUser', $user->idUser());
+				$stmt->bindParam(':idFix', $fix->idFix());
 				$stmt->execute();
 				$result = $stmt->fetch(PDO::FETCH_ASSOC);
 				$dbh = null;
@@ -55,17 +52,14 @@ class UserController extends Controller {
 		}
 	}
 
-	function update($user){
+	public function update($fix) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`update_User`(:idUser, :username, :name, :password, :salt);";
+				$statement = "CALL `NetworkInventory`.`update_Fix`(:idFix, :description);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idUser', $user->idUser());
-				$stmt->bindParam(':username', $user->username());
-				$stmt->bindParam(':name', $user->name());
-				$stmt->bindParam(':password', $user->password());
-				$stmt->bindParam(':salt', $user->salt());
+				$stmt->bindParam(':idFix', $fix->idFix());
+				$stmt->bindParam(':description', $fix->description());
 				$stmt->execute();
 				$dbh = null;
 			} catch (PDOException $e) {
@@ -78,22 +72,24 @@ class UserController extends Controller {
 		}
 	}
 
-	function delete($user){
+	public function delete($fix) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`delete_User`(:idUser);";
+				$statement = "CALL `NetworkInventory`.`delete_Fix`(:idFix, :description);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idUser', $user->idUser());
+				$stmt->bindParam(':idFix', $fix->idFix());
 				$stmt->execute();
 				$dbh = null;
 			} catch (PDOException $e) {
 				$msg = "<strong>Error!:</strong> " . $e->getMessage();
 				echo alertDanger($msg);
+				return null;
 			}
 		} else {
 			$msg = "<strong>Error!:</strong> "."No Connection!";
 			echo alertDanger($msg);
+			return null;
 		}
 	}
 }

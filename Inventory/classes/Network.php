@@ -7,7 +7,7 @@ include_once "Hardware.php";
 include_once "Note.php";
 include_once "Vulnerability.php";
 
-class Network{
+class Network extends Model{
     private $idNetwork;
     private $address;
     private $name;

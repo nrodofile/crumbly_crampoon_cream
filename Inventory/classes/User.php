@@ -5,7 +5,7 @@
 
 include_once "Input.php";
 
-class User {
+class User extends Model{
     private $idUser;
     private $username;
     private $name;
@@ -51,7 +51,7 @@ class User {
 	/**
 	 * @return mixed
 	 */
-	public function password($value=Null) {
+	protected  function password($value=Null) {
 		if (empty($value)) {
 			return $this->password->value;
 		}else {
@@ -62,7 +62,7 @@ class User {
 	/**
 	 * @return mixed
 	 */
-	public function salt($value=Null) {
+	protected  function salt($value=Null) {
 		if (empty($value)) {
 			return $this->salt->value;
 		}else {

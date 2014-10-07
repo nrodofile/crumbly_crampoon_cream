@@ -7,7 +7,7 @@ include_once "Input.php";
 include_once "User.php";
 
 
-class Note {
+class Note  extends Model{
     private $idNote;
     private $subject;
     private $note;
@@ -68,6 +68,14 @@ class Note {
 			$this->note->value = $value;
 		}
 	}
+
+	/**
+	 * @return User
+	 */
+	public function user() {
+		return $this->user;
+	}
+
 
 	/**
 	 * @return mixed

@@ -2,24 +2,24 @@
 /**
  * User: Nicholas Rodofile
  */
-
 include_once "utilities/utilities.php";
-include_once "classes/User.php";
+include_once "classes/Hardware.php";
 include_once "Controller.php";
 
-class UserController extends Controller {
+class HardwareController extends Controller{
 
-	function create($user){
+	public function create($hardware) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`create_User`(:idUser, :username, :name, :password, :salt);";
+				$statement = "CALL `NetworkInventory`.`create_Hardware`(:idHardware, :Hostname, :ip_address, :mac_address, :OperatingSystem);
+";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idUser', $user->idUser());
-				$stmt->bindParam(':username', $user->username());
-				$stmt->bindParam(':name', $user->name());
-				$stmt->bindParam(':password', $user->password());
-				$stmt->bindParam(':salt', $user->salt());
+				$stmt->bindParam(':idHardware', $hardware->idHardware());
+				$stmt->bindParam(':Hostname', $hardware->hostname());
+				$stmt->bindParam(':ip_address', $hardware->ipAddress());
+				$stmt->bindParam(':mac_address', $hardware->macAddress());
+				$stmt->bindParam(':OperatingSystem', $hardware->OperatingSystem()->idSoftware());
 				$stmt->execute();
 				$dbh = null;
 			} catch (PDOException $e) {
@@ -32,13 +32,14 @@ class UserController extends Controller {
 		}
 	}
 
-	function read($user){
+	public function read($hardware) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`read_User`(:idUser);";
+				$statement = "CALL `NetworkInventory`.`read_Hardware`(:idHardware);
+";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idUser', $user->idUser());
+				$stmt->bindParam(':idHardware', $hardware->idHardware());
 				$stmt->execute();
 				$result = $stmt->fetch(PDO::FETCH_ASSOC);
 				$dbh = null;
@@ -55,17 +56,17 @@ class UserController extends Controller {
 		}
 	}
 
-	function update($user){
+	public function update($hardware) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`update_User`(:idUser, :username, :name, :password, :salt);";
+				$statement = "CALL `NetworkInventory`.`update_Hardware`(:idHardware, :Hostname, :ip_address, :mac_address, :OperatingSystem);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idUser', $user->idUser());
-				$stmt->bindParam(':username', $user->username());
-				$stmt->bindParam(':name', $user->name());
-				$stmt->bindParam(':password', $user->password());
-				$stmt->bindParam(':salt', $user->salt());
+				$stmt->bindParam(':idHardware', $hardware->idHardware());
+				$stmt->bindParam(':Hostname', $hardware->hostname());
+				$stmt->bindParam(':ip_address', $hardware->ipAddress());
+				$stmt->bindParam(':mac_address', $hardware->macAddress());
+				$stmt->bindParam(':OperatingSystem', $hardware->OperatingSystem()->idSoftware());
 				$stmt->execute();
 				$dbh = null;
 			} catch (PDOException $e) {
@@ -78,13 +79,13 @@ class UserController extends Controller {
 		}
 	}
 
-	function delete($user){
+	public function delete($hardware) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`delete_User`(:idUser);";
+				$statement = "CALL `NetworkInventory`.`delete_Hardware`(:idHardware);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idUser', $user->idUser());
+				$stmt->bindParam(':idHardware', $hardware->idHardware());
 				$stmt->execute();
 				$dbh = null;
 			} catch (PDOException $e) {

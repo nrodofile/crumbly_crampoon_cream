@@ -7,8 +7,9 @@ include_once "Software.php";
 include_once "Network.php";
 include_once "Note.php";
 include_once "Vulnerability.php";
+include_once "Model.php";
 
-class Hardware{
+class Hardware extends Model{
     private $idHardware;
     private $hostname;
     private $ip_address;
@@ -78,6 +79,15 @@ class Hardware{
 			$this->mac_address->value = $value;
 		}
 	}
+
+	/**
+	 * @return OperatingSystem
+	 */
+	public function OperatingSystem() {
+		return $this->OperatingSystem;
+	}
+
+
 
 	function network($idNetwork){
 		echo $idNetwork;
