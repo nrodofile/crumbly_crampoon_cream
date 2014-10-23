@@ -2,7 +2,6 @@
 /**
  * User: Nicholas Rodofile
  */
-include_once "Input.php";
 include_once "Software.php";
 include_once "Network.php";
 include_once "Note.php";
@@ -24,16 +23,16 @@ class Hardware extends Model{
 
 	function __construct($idHardware, $hostname=null, $ip_address=null, $mac_address=null, $OperatingSystem=null,
 						 $applications=null, $notes=null, $vulnerability=null) {
-		$this->idHardware = new Hidden("idHardware_id", "Hardware_ID", $idHardware);
-		$this->hostname = new Text("hostname_id", "Hostname", $value = $hostname);
-		$this->ip_address = new Text("ip_address_id", "IP Address", $ip_address);
-		$this->mac_address = new Text("mac_address_id", "MAC Address", $mac_address);
-		$this->OperatingSystem = new OperatingSystem($OperatingSystem);
-		$this->network = Network::hardware($idHardware);
-		$this->applications = Application::hardware($idHardware);
-		$this->connections = Connection::connected($idHardware);
-		$this->notes = Note::hardware($idHardware);
-		$this->vulnerability = Vulnerability::hardware($idHardware);
+		$this->idHardware = $idHardware;
+		$this->hostname = $hostname;
+		$this->ip_address = $ip_address;
+		$this->mac_address = $mac_address;
+		$this->OperatingSystem = $OperatingSystem;
+		$this->network = null;
+		$this->applications = $applications;
+		$this->connections = null;
+		$this->notes = $notes;
+		$this->vulnerability = $vulnerability;
 	}
 
 	/**
@@ -41,7 +40,7 @@ class Hardware extends Model{
 	 */
 	public function idHardware($value=Null) {
 		if (empty($value)) {
-			return $this->idHardware;
+			return $this->idHardware->value;
 		} else {
 			$this->idHardware->value = $value;
 		}
@@ -52,9 +51,9 @@ class Hardware extends Model{
 	 */
 	public function hostname($value=Null) {
 		if (empty($value)) {
-			return $this->hostname->value;
+			return $this->hostname;
 		} else {
-			$this->hostname->value = $value;
+			$this->hostname = $value;
 		}
 	}
 
@@ -63,9 +62,9 @@ class Hardware extends Model{
 	 */
 	public function ipAddress($value=Null) {
 		if (empty($value)) {
-			return $this->ip_address->value;
+			return $this->ip_address;
 		} else {
-			$this->ip_address->value = $value;
+			$this->ip_address = $value;
 		}
 	}
 
@@ -74,9 +73,9 @@ class Hardware extends Model{
 	 */
 	public function macAddress($value=Null) {
 		if (empty($value)) {
-			return $this->mac_address->value;
+			return $this->mac_address;
 		} else {
-			$this->mac_address->value = $value;
+			$this->mac_address = $value;
 		}
 	}
 
@@ -87,11 +86,24 @@ class Hardware extends Model{
 		return $this->OperatingSystem;
 	}
 
+	function network(){
+		return $this->network;
+	}
 
+	function notes(){
+		return $this->notes;
+	}
 
-	function network($idNetwork){
-		echo $idNetwork;
-		return null;
+	function vulnerability(){
+		return $this->vulnerability;
+	}
+
+	function applications(){
+		return $this->applications;
+	}
+
+	function connections(){
+		return $this->connections;
 	}
 
 	/**
@@ -107,12 +119,12 @@ class Hardware extends Model{
 
 	function __toString() {
 		return
-			"Hardware_id: ".$this->idHardware->value."<br/>".
-			"Hostname: ".$this->hostname->value."<br/>".
-			"IP_Address: ".$this->ip_address->value."<br/>".
-			"Mac_Address: ".$this->mac_address->value."<br/>".
-			"Network_Address: ".$this->network->address()."<br/>".
-			"Operating_System: ".$this->OperatingSystem->idSoftware()."<br/>".
+			"Hardware_id: ".$this->idHardware."<br/>".
+			"Hostname: ".$this->hostname."<br/>".
+			"IP_Address: ".$this->ip_address."<br/>".
+			"Mac_Address: ".$this->mac_address."<br/>".
+			"Network_Address: ".$this->network."<br/>".
+			"Operating_System: ".$this->OperatingSystem."<br/>".
 			"Connected: ".count($this->connections)."<br/>".
 			"Applications: ".count($this->applications)."<br/>".
 			"Notes: ".count($this->notes)."<br/>".
@@ -146,8 +158,6 @@ class Connection extends Hardware{
 	public function count() {
 		return "100";
 	}
-
-
 
 	function connected($idHardware){
 		return null;

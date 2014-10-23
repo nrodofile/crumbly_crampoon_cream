@@ -15,7 +15,7 @@ class NetworkController extends Controller{
 				$statement = "CALL `NetworkInventory`.`create_Network`(:idNetwork, :address, :name);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idHardware', $network->idNetwork());
+				$stmt->bindParam(':idNetwork', $network->idNetwork());
 				$stmt->bindParam(':address', $network->address());
 				$stmt->bindParam(':name', $network->name());
 				$stmt->execute();
@@ -36,7 +36,7 @@ class NetworkController extends Controller{
 				$statement = "CALL `NetworkInventory`.`read_Network`(:idNetwork);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idHardware', $network->idNetwork());
+				$stmt->bindParam(':idNetwork', $network->idNetwork());
 				$stmt->execute();
 				$result = $stmt->fetch(PDO::FETCH_ASSOC);
 				$dbh = null;
@@ -59,7 +59,7 @@ class NetworkController extends Controller{
 				$statement = "CALL `NetworkInventory`.`update_Network`(:idNetwork, :address, :name);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idHardware', $network->idNetwork());
+				$stmt->bindParam(':idNetwork', $network->idNetwork());
 				$stmt->bindParam(':address', $network->address());
 				$stmt->bindParam(':name', $network->name());
 				$stmt->execute();
@@ -82,7 +82,7 @@ class NetworkController extends Controller{
 				$statement = "CALL `NetworkInventory`.`delete_Network`(:idNetwork);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idHardware', $network->idNetwork());
+				$stmt->bindParam(':idNetwork', $network->idNetwork());
 				$stmt->execute();
 				$dbh = null;
 			} catch (PDOException $e) {

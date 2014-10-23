@@ -13,10 +13,24 @@ class Fix extends Model{
 	private $notes;
 
 	function __construct($idFix = null, $description = null) {
-		$this->idFix = new Hidden("idFix_id", "Fix ID", $idFix);
-		$this->description = new TextArea("description_id", "Description", $description);
-		$this->notes = Note::fix($idFix);
-		$this->software = Software::fix($idFix);
+		$this->idFix =$idFix;
+		$this->description = $description;
+		$this->software = null;
+		$this->notes = null;
+	}
+
+	/**
+	 * @return null
+	 */
+	public function notes() {
+		return $this->notes;
+	}
+
+	/**
+	 * @return null
+	 */
+	public function software() {
+		return $this->software;
 	}
 
 	/**
@@ -26,7 +40,7 @@ class Fix extends Model{
 		if (empty($value)) {
 			return $this->description;
 		} else {
-			$this->description->value = $value;
+			$this->description = $value;
 		}
 	}
 
@@ -37,7 +51,7 @@ class Fix extends Model{
 		if (empty($value)) {
 			return $this->idFix;
 		}else {
-			$this->idFix->value = $value;
+			$this->idFix = $value;
 		}
 	}
 
@@ -48,10 +62,8 @@ class Fix extends Model{
 
 	function __toString() {
 		return
-			"idFix: ".$this->idFix->value."<br/>".
-			"description: ".$this->description->value."<br/>".
-			"notes: ".count($this->notes)."<br/>".
-			"software: ".count($this->software)."<br/>";
+			"idFix: ".$this->idFix."<br/>".
+			"description: ".$this->description."<br/>";
 	}
 
 

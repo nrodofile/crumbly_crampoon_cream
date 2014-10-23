@@ -11,8 +11,7 @@ class HardwareController extends Controller{
 	public function create($hardware) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`create_Hardware`(:idHardware, :Hostname, :ip_address, :mac_address, :OperatingSystem);
-";
+				$statement = "CALL `NetworkInventory`.`create_Hardware`(:idHardware, :Hostname, :ip_address, :mac_address, :OperatingSystem);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
 				$stmt->bindParam(':idHardware', $hardware->idHardware());
@@ -32,6 +31,9 @@ class HardwareController extends Controller{
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	public function read($hardware) {
 		if($this->conn != null) {
 			try {

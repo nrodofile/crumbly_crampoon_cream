@@ -2,7 +2,7 @@
 /**
  * User: Nicholas Rodofile
  */
-include_once "Input.php";
+
 include_once "Hardware.php";
 include_once "Note.php";
 include_once "Vulnerability.php";
@@ -16,12 +16,12 @@ class Network extends Model{
 	private $vulnerability;
 
 	function __construct( $idNetwork = null, $address = null, $name = null) {
-		$this->idNetwork = new Hidden("idNetwork_id", "Network ID", $idNetwork);
-		$this->address = new Text("address_id", "Address", $address);
-		$this->name = new Text("name_id", "Name", $name);
-		$this->hardware = Hardware::network($idNetwork);
-		$this->notes = Note::network($idNetwork);
-		$this->vulnerability = Vulnerability::network($idNetwork);
+		$this->idNetwork = $idNetwork;
+		$this->address = $address;
+		$this->name = $name;
+		$this->hardware = null;
+		$this->notes = null;
+		$this->vulnerability = null;
 	}
 
 	/**
@@ -29,9 +29,9 @@ class Network extends Model{
 	 */
 	public function address($value=Null){
 		if (empty($value)){
-			return $this->address->value;
+			return $this->address;
 		} else {
-			$this->address->value = $value;
+			$this->address = $value;
 		}
 	}
 
@@ -40,9 +40,9 @@ class Network extends Model{
 	 */
 	public function idNetwork($value=Null) {
 		if (empty($value)) {
-			return $this->idNetwork->value;
+			return $this->idNetwork;
 		} else {
-			$this->idNetwork->value = $value;
+			$this->idNetwork = $value;
 		}
 	}
 
@@ -51,15 +51,22 @@ class Network extends Model{
 	 */
 	public function name($value=Null) {
 		if (empty($value)) {
-			return $this->name->value;
+			return $this->name;
 		} else {
-			$this->name->value = $value;
+			$this->name = $value;
 		}
 	}
 
-	function hardware($idHardware){
-		echo $idHardware."Network_Hardware\n";
-		return new self();
+	function notes(){
+		return $this->notes;
+	}
+
+	function vulnerability(){
+		return $this->vulnerability;
+	}
+
+	function hardware(){
+		return $this->hardware;
 	}
 
 	function select(){
@@ -68,9 +75,9 @@ class Network extends Model{
 
 	function __toString() {
 		return
-			"idNetwork: ".$this->idNetwork->value."<br/>".
-			"address: ".$this->address->value."<br/>".
-			"name: ".$this->name->value."<br/>".
+			"idNetwork: ".$this->idNetwork."<br/>".
+			"address: ".$this->address."<br/>".
+			"name: ".$this->name."<br/>".
 			"hardware: ".count($this->hardware)."<br/>".
 			"notes: ".count($this->notes)."<br/>".
 			"vulnerability: ".count($this->vulnerability)."<br/>";

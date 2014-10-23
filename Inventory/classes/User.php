@@ -4,6 +4,7 @@
  */
 
 include_once "Input.php";
+include_once "Model.php";
 
 class User extends Model{
     private $idUser;
@@ -13,11 +14,11 @@ class User extends Model{
     private $salt;
 
 	function __construct($idUser=Null, $username=Null, $name=Null, $password=Null, $salt=Null) {
-		$this->idUser = new Hidden("idUser_id","User ID",$idUser);
-		$this->name = new Text("name_id", "Name", $name);
-		$this->password = new Password("password_id", "Password", $password);
-		$this->salt = new Password("salt_id","Salt", $salt);
-		$this->username = new Text("username_id", "Username", $username);
+		$this->idUser = $idUser;
+		$this->name = $name;
+		$this->password = $password;
+		$this->salt = $salt;
+		$this->username = $username;
 	}
 
 	function by_id($idUser){
@@ -30,9 +31,9 @@ class User extends Model{
 	 */
 	public function IdUser($value=Null) {
 		if (empty($value)) {
-			return $this->idUser->value;
+			return $this->idUser;
 		} else {
-			$this->idUser->value = $value;
+			$this->idUser = $value;
 		}
 	}
 
@@ -42,31 +43,31 @@ class User extends Model{
 	public function name($value=Null) {
 		if (empty($value)) {
 			//echo $this->name->input();
-			return $this->name->value;
+			return $this->name;
 		}else {
-			$this->name->value = $value;
+			$this->name = $value;
 		}
 	}
 
 	/**
 	 * @return mixed
 	 */
-	protected  function password($value=Null) {
+	public  function password($value=Null) {
 		if (empty($value)) {
-			return $this->password->value;
+			return $this->password;
 		}else {
-			$this->password->value = $value;
+			$this->password = $value;
 		}
 	}
 
 	/**
 	 * @return mixed
 	 */
-	protected  function salt($value=Null) {
+	public  function salt($value=Null) {
 		if (empty($value)) {
-			return $this->salt->value;
+			return $this->salt;
 		}else {
-			$this->salt->value = $value;
+			$this->salt = $value;
 		}
 	}
 
@@ -75,19 +76,19 @@ class User extends Model{
 	 */
 	public function username($value=Null) {
 		if (empty($value)) {
-			return $this->username->value;
+			return $this->username;
 		}else {
-			$this->username->value = $value;
+			$this->username = $value;
 		}
 	}
 
 	function __toString() {
 		return
-			"idUser: ".$this->idUser->value."<br/>".
-			"name: ".$this->name->value."<br/>".
-			"password: ".$this->password->value."<br/>".
-			"salt: ".$this->salt->value."<br/>".
-			"username: ".$this->username->value."<br/>";
+			"idUser: ".$this->idUser."<br/>".
+			"name: ".$this->name."<br/>".
+			"password: ".$this->password."<br/>".
+			"salt: ".$this->salt."<br/>".
+			"username: ".$this->username."<br/>";
 	}
 
 

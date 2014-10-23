@@ -5,9 +5,10 @@
 include_once "Input.php";
 include_once "Note.php";
 include_once "Vulnerability.php";
+include_once "~/../access/SoftwareController.php";
 
 class Software extends Model{
-    protected  $idSoftware;
+    protected $idSoftware;
 	protected $name;
 	protected $version;
 	protected $location;
@@ -15,12 +16,12 @@ class Software extends Model{
 	protected $vulnerability;
 
 	function __construct($idSoftware = null, $name = null, $version = null, $location = null) {
-		$this->idSoftware = new Hidden("idSoftware_id", "Software ID",$idSoftware);
-		$this->location = new Text("location_id", "Location", $location);
-		$this->name = new Text("name_id", "Network ID", $name);
-		$this->version = new Text("version_id", "Version", $version);
-		$this->vulnerability = Vulnerability::software($idSoftware);
-		$this->notes = Note::software($idSoftware);
+		$this->idSoftware = $idSoftware;
+		$this->location = $location;
+		$this->name = $name;
+		$this->version = $version;
+		$this->vulnerability = null;
+		$this->notes = null;
 	}
 
 	/**
@@ -28,9 +29,9 @@ class Software extends Model{
 	 */
 	public function idSoftware($value=null) {
 		if (empty($value)) {
-			return $this->idSoftware->value;
+			return $this->idSoftware;
 		} else {
-			$this->idSoftware->value = $value;
+			$this->idSoftware = $value;
 		}
 	}
 
@@ -39,9 +40,9 @@ class Software extends Model{
 	 */
 	public function location($value=null) {
 		if (empty($value)) {
-			return $this->location->value;
+			return $this->location;
 		} else {
-			$this->location->value = $value;
+			$this->location = $value;
 		}
 	}
 
@@ -50,9 +51,9 @@ class Software extends Model{
 	 */
 	public function name($value=null) {
 		if (empty($value)) {
-			return $this->name->value;
+			return $this->name;
 		} else {
-			$this->name->value = $value;
+			$this->name = $value;
 		}
 	}
 
@@ -61,9 +62,9 @@ class Software extends Model{
 	 */
 	public function version($value=null) {
 		if (empty($value)) {
-			return $this->version->value;
+			return $this->version;
 		} else {
-			$this->version->value = $value;
+			$this->version = $value;
 		}
 	}
 
@@ -74,12 +75,17 @@ class Software extends Model{
 	}
 
 	protected function init_by_id($idSoftware){
-		$this->idSoftware = new Hidden("idSoftware_id", "Software ID","idSoftware");
-		$this->location = new Text("location_id", "Location", "location");
-		$this->name = new Text("name_id", "Network ID", "name");
-		$this->version = new Text("version_id", "Version", "version");
-		$this->vulnerability = Vulnerability::software($idSoftware);
-		$this->notes = Note::software($idSoftware);
+		$sw = $this;
+		$controller = new SoftwareController();
+		$software = $controller->read($sw);
+		if (!empty($software)){
+			$this->idSoftware = $software["idSoftware"];
+			$this->location = $software["Location"];
+			$this->name = $software["name"];
+			$this->version = $software["version"];
+			$this->vulnerability = null;
+			$this->notes = null;
+		}
 	}
 
 	public function fix($idFix){
@@ -89,10 +95,10 @@ class Software extends Model{
 
 	function __toString() {
 		return
-			"idSoftware: ".$this->idSoftware->value."<br/>".
-			"name: ".$this->name->value."<br/>".
-			"version: ".$this->version->value."<br/>".
-			"location: ".$this->location->value."<br/>".
+			"idSoftware: ".$this->idSoftware."<br/>".
+			"name: ".$this->name."<br/>".
+			"version: ".$this->version."<br/>".
+			"location: ".$this->location."<br/>".
 			"vulnerability: ".count($this->vulnerability)."<br/>".
 			"notes: ".count($this->notes)."<br/>";
 	}
@@ -101,10 +107,9 @@ class Software extends Model{
 }
 
 class OperatingSystem extends Software{
-    private $idOperatingSystem;
 
 	function __construct($idOperatingSystem) {
-		$this->idOperatingSystem = new Hidden("idOperatingSystem_id", "Operating System", $idOperatingSystem);
+		$this->idSoftware = $idOperatingSystem;
 		$this->init_by_id($idOperatingSystem);
 	}
 
@@ -118,11 +123,10 @@ class OperatingSystem extends Software{
 
 	function __toString() {
 		return
-			"idSoftware: " . $this->idSoftware->value . "<br/>" .
-			"location: " . $this->location->value . "<br/>" .
-			"name: " . $this->name->value . "<br/>" .
-			"version: " . $this->version->value . "<br/>" .
-			"idOperatingSystem: " . $this->idOperatingSystem->value . "<br/>" .
+			"idSoftware: " . $this->idSoftware . "<br/>" .
+			"location: " . $this->location . "<br/>" .
+			"name: " . $this->name . "<br/>" .
+			"version: " . $this->version . "<br/>" .
 			"vulnerability: " . count($this->vulnerability) . "<br/>" .
 			"notes: " . count($this->notes) . "<br/>";
 	}
@@ -132,7 +136,7 @@ class Application extends Software{
 	private $idOperatingSystem;
 
 	function __construct($idOperatingSystem, $idSoftware) {
-		$this->idOperatingSystem = OperatingSystem::by_id($idOperatingSystem);
+		$this->idOperatingSystem = $idOperatingSystem;
 		$this->init_by_id($idSoftware);
 	}
 
@@ -143,11 +147,11 @@ class Application extends Software{
 
 	function __toString() {
 		return
-			"idSoftware: " . $this->idSoftware->value . "<br/>" .
-			"name: " . $this->name->value . "<br/>" .
-			"version: " . $this->version->value . "<br/>" .
+			"idSoftware: " . $this->idSoftware . "<br/>" .
+			"name: " . $this->name . "<br/>" .
+			"version: " . $this->version . "<br/>" .
 			"idOperatingSystem: " . count($this->idOperatingSystem). "<br/>" .
-			"location: " . $this->location->value . "<br/>" .
+			"location: " . $this->location . "<br/>" .
 			"vulnerability: " . count($this->vulnerability) . "<br/>" .
 			"notes: " . count($this->notes) . "<br/>";
 	}

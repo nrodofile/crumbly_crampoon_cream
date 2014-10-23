@@ -16,13 +16,13 @@ class Note  extends Model{
     private $user;
 
 	function __construct($idNote = null, $note = null,
-						 $subject = null, $added = null, $modified = null) {
-		$this->added = new Text("added_id", "Added", $added);
-		$this->idNote = new Hidden("idNote_id", "Note ID", $idNote);
-		$this->modified = new Text("modified_id", "Modified", $modified);
-		$this->note = new TextArea("note_id", "Note", $note);
-		$this->subject = new Text("subject_id", "Subject", $subject);
-		$this->user = User::by_id($user);
+						 $subject = null, $added = null, $modified = null, $user = null) {
+		$this->added = $added;
+		$this->idNote = $idNote;
+		$this->modified = $modified;
+		$this->note = $note;
+		$this->subject = $subject;
+		$this->user = $user;
 	}
 
 	/**
@@ -30,9 +30,9 @@ class Note  extends Model{
 	 */
 	public function added($value=Null) {
 		if (empty($value)) {
-			return $this->added->value;
+			return $this->added;
 		} else {
-			$this->added->value = $value;
+			$this->added= $value;
 		}
 	}
 
@@ -41,9 +41,9 @@ class Note  extends Model{
 	 */
 	public function idNote($value=Null) {
 		if (empty($value)) {
-			return $this->idNote->value;
+			return $this->idNote;
 		} else {
-			$this->idNote->value = $value;
+			$this->idNote = $value;
 		}
 	}
 
@@ -52,9 +52,9 @@ class Note  extends Model{
 	 */
 	public function modified($value=Null) {
 		if (empty($value)) {
-			return $this->modified->value;
+			return $this->modified;
 		} else {
-			$this->modified->value = $value;
+			$this->modified = $value;
 		}
 	}
 
@@ -63,9 +63,9 @@ class Note  extends Model{
 	 */
 	public function note($value=Null) {
 		if (empty($value)) {
-			return $this->note->value;
+			return $this->note;
 		} else{
-			$this->note->value = $value;
+			$this->note = $value;
 		}
 	}
 
@@ -82,9 +82,9 @@ class Note  extends Model{
 	 */
 	public function subject($value=Null) {
 		if (empty($value)) {
-			return $this->subject->value;
+			return $this->subject;
 		} else{
-			$this->subject->value = $value;
+			$this->subject = $value;
 		}
 	}
 
@@ -115,11 +115,11 @@ class Note  extends Model{
 
 	function __toString() {
 		return
-			"idNote: ".$this->idNote->value."<br/>".
-			"subject: ".$this->subject->value."<br/>".
-			"note: ".$this->note->value."<br/>".
-			"added: ".$this->added->value."<br/>".
-			"modified: ".$this->modified->value."<br/>".
+			"idNote: ".$this->idNote."<br/>".
+			"subject: ".$this->subject."<br/>".
+			"note: ".$this->note."<br/>".
+			"added: ".$this->added."<br/>".
+			"modified: ".$this->modified."<br/>".
 			"user: ".count($this->user)."<br/>";
 	}
 
