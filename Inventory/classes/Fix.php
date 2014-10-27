@@ -2,9 +2,8 @@
 /**
  * User: Nicholas Rodofile
  */
-include_once "Input.php";
-include_once "Software.php";
-include_once "Note.php";
+include_once "includes.php";
+
 
 class Fix extends Model{
     private $idFix;

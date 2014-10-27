@@ -2,11 +2,8 @@
 /**
  * User: Nicholas Rodofile
  */
-include_once "Software.php";
-include_once "Network.php";
-include_once "Note.php";
-include_once "Vulnerability.php";
-include_once "Model.php";
+include_once "includes.php";
+
 
 class Hardware extends Model{
     private $idHardware;

@@ -3,9 +3,8 @@
  * User: Nicholas Rodofile
  */
 
-include_once "Controller.php";
-include_once "utilities/utilities.php";
-include_once "classes/Fix.php";
+include_once 'includes.php';
+
 
 class FixController extends Controller{
 

@@ -3,9 +3,8 @@
  * User: Nicholas Rodofile
  */
 
-include_once "Hardware.php";
-include_once "Note.php";
-include_once "Vulnerability.php";
+include_once "includes.php";
+
 
 class Network extends Model{
     private $idNetwork;

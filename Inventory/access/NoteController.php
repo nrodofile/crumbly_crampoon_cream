@@ -3,9 +3,7 @@
  * User: Nicholas Rodofile
  */
 
-include_once "utilities/utilities.php";
-include_once "classes/Note.php";
-include_once "Controller.php";
+include_once 'includes.php';
 
 class NoteController extends Controller {
 	public function create($note) {

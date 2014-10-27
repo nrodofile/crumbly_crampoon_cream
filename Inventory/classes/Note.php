@@ -3,8 +3,7 @@
  * User: Nicholas Rodofile
  */
 
-include_once "Input.php";
-include_once "User.php";
+include_once "includes.php";
 
 
 class Note  extends Model{

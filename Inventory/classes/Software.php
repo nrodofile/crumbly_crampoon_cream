@@ -2,10 +2,9 @@
 /**
  * User: Nicholas Rodofile
  */
-include_once "Input.php";
-include_once "Note.php";
-include_once "Vulnerability.php";
-include_once "~/../access/SoftwareController.php";
+include_once "includes.php";
+
+
 
 class Software extends Model{
     protected $idSoftware;
@@ -68,6 +67,13 @@ class Software extends Model{
 		}
 	}
 
+	public function note(){
+		return null;
+	}
+
+	public function vulnerability(){
+		return null;
+	}
 
 	public function by_id($idSoftware){
 		echo $idSoftware;

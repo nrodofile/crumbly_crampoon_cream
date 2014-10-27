@@ -3,8 +3,7 @@
  * User: Nicholas Rodofile
  */
 
-include_once "Input.php";
-include_once "Model.php";
+include_once "includes.php";
 
 class User extends Model{
     private $idUser;
