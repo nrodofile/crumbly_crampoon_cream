@@ -3,11 +3,11 @@ include_once 'classes/includes.php';
 include_once 'views/includes.php';
 include_once 'components/includes.php';
 
-$sw = new Software("1", "Microsoft Word", "3000", "www.google.com");
-$sv = new SoftwareView($sw);
+$model = new Fix(null, "Patch System");
+$view = new FixView($model);
 $nav = new NavbarView();
-$sv->input_form();
-$output = $sv->output_form();
+$view->input_form();
+$output = $view->output_form();
 $container = new PanelContainerView();
 //$sv->input_form();
 
@@ -28,7 +28,7 @@ $container = new PanelContainerView();
 <body>
 
 <?php
-$title = 'Software';
+$title = 'Fix';
 echo $nav->show($title);
 echo $container->display($title, $output);
 

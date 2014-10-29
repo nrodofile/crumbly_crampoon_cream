@@ -3,11 +3,11 @@ include_once 'classes/includes.php';
 include_once 'views/includes.php';
 include_once 'components/includes.php';
 
-$sw = new Software("1", "Microsoft Word", "3000", "www.google.com");
-$sv = new SoftwareView($sw);
+$hw = new Hardware(null, "master", "10.191.181.2", null, "1");
+$hv = new HardwareView($hw);
 $nav = new NavbarView();
-$sv->input_form();
-$output = $sv->output_form();
+$hv->input_form();
+$output = $hv->output_form();
 $container = new PanelContainerView();
 //$sv->input_form();
 
@@ -28,7 +28,8 @@ $container = new PanelContainerView();
 <body>
 
 <?php
-$title = 'Software';
+
+$title = 'Hardware';
 echo $nav->show($title);
 echo $container->display($title, $output);
 

@@ -24,14 +24,23 @@ class FixView extends View {
 	}
 
 	public function input_form() {
-		echo $this->idFix->input();
-		echo $this->description->input();
-		echo $this->software;
-		echo $this->notes;
+		$output = '<form class="form-horizontal" role="form">';
+		$output .= $this->idFix->input();
+		$output .= $this->description->input();
+		$output .= $this->software;
+		$output .= $this->notes;
+		$output .= '</form>';
+		return $output;
 	}
 
 	public function output_form() {
-		// TODO: Implement output_form() method.
+		$output = '<form class="form-horizontal" role="form">';
+		$output .= $this->idFix->input();
+		$output .= $this->description->output();
+		$output .= $this->software;
+		$output .= $this->notes;
+		$output .= '</form>';
+		return $output;
 	}
 
 	public function select() {

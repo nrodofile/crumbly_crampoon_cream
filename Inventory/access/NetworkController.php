@@ -94,4 +94,26 @@ class NetworkController extends Controller{
 			return null;
 		}
 	}
+
+	public function select() {
+		if($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`select_Network`();";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->execute();
+				$result = $stmt->fetchAll();
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+				return null;
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> "."No Connection!";
+			echo alertDanger($msg);
+			return null;
+		}
+	}
 }

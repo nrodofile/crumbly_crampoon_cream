@@ -37,20 +37,35 @@ class HardwareView extends View{
 	}
 
 	public function input_form() {
-		echo $this->idHardware->input();
-		echo $this->hostname->input();
-		echo $this->ip_address->input();
-		echo $this->mac_address->input();
-		echo $this->network;
-		echo $this->OperatingSystem->input();
-		echo $this->connections;
-		echo $this->applications;
-		echo $this->notes;
-		echo $this->vulnerability;
+		$output = '<form class="form-horizontal" role="form">';
+		$output .= $this->idHardware->input();
+		$output .= $this->hostname->input();
+		$output .= $this->ip_address->input();
+		$output .= $this->mac_address->input();
+		$output .= $this->network;
+		$output .= $this->OperatingSystem->input();
+		$output .= $this->connections;
+		$output .= $this->applications;
+		$output .= $this->notes;
+		$output .= $this->vulnerability;
+		$output .= '</form>';
+		return $output;
 	}
 
 	public function output_form() {
-		// TODO: Implement output_form() method.
+		$output = '<form class="form-horizontal" role="form">';
+		$output .= $this->idHardware->input();
+		$output .= $this->hostname->output();
+		$output .= $this->ip_address->output();
+		$output .= $this->mac_address->output();
+		$output .= $this->network;
+		$output .= $this->OperatingSystem->output();
+		$output .= $this->connections;
+		$output .= $this->applications;
+		$output .= $this->notes;
+		$output .= $this->vulnerability;
+		$output .= '</form>';
+		return $output;
 	}
 
 	public function select() {

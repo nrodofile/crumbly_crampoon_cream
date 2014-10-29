@@ -29,16 +29,27 @@ class SoftwareView extends View{
 	}
 
 	public function input_form() {
-		echo $this->idSoftware->input();
-		echo $this->name->input();
-		echo $this->version->input();
-		echo $this->location->input();
-		echo $this->notes;
-		echo $this->vulnerability;
+		$output = '<form class="form-horizontal" role="form">';
+		$output .=  $this->idSoftware->input();
+		$output .= $this->name->input();
+		$output .= $this->version->input();
+		$output .= $this->location->input();
+		$output .= $this->notes;
+		$output .= $this->vulnerability;
+		$output .= '</form>';
+		return $output;
 	}
 
 	public function output_form() {
-		// TODO: Implement output_form() method.
+		$output = '<form class="form-horizontal" role="form">';
+		$output .= $this->idSoftware->input();
+		$output .= $this->name->output();
+		$output .= $this->version->output();
+		$output .= $this->location->output();
+		$output .= $this->notes;
+		$output .= $this->vulnerability;
+		$output .= '</form>';
+		return $output;
 	}
 
 	public function select() {

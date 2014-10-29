@@ -42,6 +42,18 @@ class Text {
 			</div>";
     }
 
+	function output(){
+		return
+			"<div class=\"form-group\">
+				<label for=\"$this->name\" class=\"col-sm-2 control-label\">$this->placeholder</label>
+				<div class=\"col-sm-10\">
+					<p class=\"form-control-static\">$this->value</p>
+				</div>
+			</div>";
+	}
+
+
+
     function toString(){
         echo $this->value;
     }
@@ -139,7 +151,8 @@ class Select extends Text{
 			"<div class=\"form-group\">
 				<label for=\"$this->name\" class=\"col-sm-2 control-label\">$this->placeholder</label>
 				<div class=\"col-sm-10\">
-					<select name=\"$this->name\" placeholder =\"$this->placeholder\" value=\"$this->value\" class=\"form-control\" $this->attributes>
+					<select name=\"$this->name\" class=\"form-control\" $this->attributes>
+					$this->value
 					</select>
 				</div>
 			</div>";
