@@ -8,8 +8,6 @@ include_once "includes.php";
 class Hardware extends Model{
     private $idHardware;
     private $hostname;
-    private $ip_address;
-    private $mac_address;
 	private $network;
     private $OperatingSystem;
 	private $connections;
@@ -18,18 +16,15 @@ class Hardware extends Model{
 	private $vulnerability;
 
 
-	function __construct($idHardware, $hostname=null, $ip_address=null, $mac_address=null, $OperatingSystem=null,
-						 $applications=null, $notes=null, $vulnerability=null) {
+	function __construct($idHardware=null, $hostname=null, $OperatingSystem=null) {
 		$this->idHardware = $idHardware;
 		$this->hostname = $hostname;
-		$this->ip_address = $ip_address;
-		$this->mac_address = $mac_address;
 		$this->OperatingSystem = $OperatingSystem;
 		$this->network = null;
-		$this->applications = $applications;
+		$this->applications = null;
 		$this->connections = null;
-		$this->notes = $notes;
-		$this->vulnerability = $vulnerability;
+		$this->notes = null;
+		$this->vulnerability = null;
 	}
 
 	/**
@@ -51,28 +46,6 @@ class Hardware extends Model{
 			return $this->hostname;
 		} else {
 			$this->hostname = $value;
-		}
-	}
-
-	/**
-	 * @return Text value
-	 */
-	public function ipAddress($value=Null) {
-		if (empty($value)) {
-			return $this->ip_address;
-		} else {
-			$this->ip_address = $value;
-		}
-	}
-
-	/**
-	 * @return Text value
-	 */
-	public function macAddress($value=Null) {
-		if (empty($value)) {
-			return $this->mac_address;
-		} else {
-			$this->mac_address = $value;
 		}
 	}
 
@@ -118,8 +91,6 @@ class Hardware extends Model{
 		return
 			"Hardware_id: ".$this->idHardware."<br/>".
 			"Hostname: ".$this->hostname."<br/>".
-			"IP_Address: ".$this->ip_address."<br/>".
-			"Mac_Address: ".$this->mac_address."<br/>".
 			"Network_Address: ".$this->network."<br/>".
 			"Operating_System: ".$this->OperatingSystem."<br/>".
 			"Connected: ".count($this->connections)."<br/>".

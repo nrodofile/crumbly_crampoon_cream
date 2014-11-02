@@ -33,6 +33,7 @@ $container = new PanelContainerView();
 <?php
 $title = 'Network';
 echo $nav->show($title);
+echo $container->db_message($title);
 echo $container->display($title, $output);
 echo $container->display('Networks', $view->list_all());
 

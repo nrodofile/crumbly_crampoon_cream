@@ -15,11 +15,12 @@ class NavbarView {
 				"Hardware" => "index_hardware.php",
 				"Software" => array(
 					"Software" => "index_software.php",
-					"Applications" => "#applications",
-					"Operating Systems" => "#operatingsystems"
+					"Applications" => "index_application.php",
+					"Operating System" => "index_operating_system.php"
 				),
-				"Vulnerabilities" => "index_vulnerability.php",
+				"Vulnerability" => "index_vulnerability.php",
 				"Fix" => "index_fix.php",
+				"Note" => "index_note.php",
 			);
 		} else {
 			$this->menu_items = $menu_items;

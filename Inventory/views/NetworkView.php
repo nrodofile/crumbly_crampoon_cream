@@ -30,17 +30,16 @@ class NetworkView extends View {
 		$this->controller = new NetworkController();
 	}
 
-	public function input_form() {
-		$output = '<form class="form-horizontal" role="form" action="insert.php" method="post">';
-		$output .= '<input type="hidden" name="form" value="insert_network">';
+	public function input_form($action="insert.php", $value="insert_network", $submit="Add Network") {
+		$output = '<form class="form-horizontal" role="form" action="'.$action.'" method="post">';
+		$output .= '<input type="hidden" name="form" value="'.$value.'">';
 		$output .= $this->idNetwork->input();
 		$output .= $this->name->input();
 		$output .= $this->address->input();
 		$output .= $this->hardware;
 		$output .= $this->notes;
 		$output .= $this->vulnerability;
-		$output .= $this->select();
-		$output .= '<input type="submit" value="Add">';
+		$output .= '<input type="submit" value="'.$submit.'" class="btn btn-success">';
 		$output .= '</form>';
 		return $output;
 	}

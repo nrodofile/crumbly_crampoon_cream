@@ -9,23 +9,24 @@ class HardwareController extends Controller{
 	public function create($hardware) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`create_Hardware`(:idHardware, :Hostname, :ip_address, :mac_address, :OperatingSystem);";
+				$statement = "CALL `NetworkInventory`.`create_Hardware`(:idHardware, :Hostname, :OperatingSystem);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
 				$stmt->bindParam(':idHardware', $hardware->idHardware());
 				$stmt->bindParam(':Hostname', $hardware->hostname());
-				$stmt->bindParam(':ip_address', $hardware->ipAddress());
-				$stmt->bindParam(':mac_address', $hardware->macAddress());
-				$stmt->bindParam(':OperatingSystem', $hardware->OperatingSystem()->idSoftware());
-				$stmt->execute();
+				$stmt->bindParam(':OperatingSystem', $hardware->OperatingSystem());
+				$success = $stmt->execute();
 				$dbh = null;
+				return $success;
 			} catch (PDOException $e) {
 				$msg = "<strong>Error!:</strong> " . $e->getMessage();
 				echo alertDanger($msg);
+				return null;
 			}
 		} else {
 			$msg = "<strong>Error!:</strong> "."No Connection!";
 			echo alertDanger($msg);
+			return null;
 		}
 	}
 
@@ -56,16 +57,36 @@ class HardwareController extends Controller{
 		}
 	}
 
+	public function select() {
+		if($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`select_Hardware`();";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->execute();
+				$result = $stmt->fetchAll();
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+				return null;
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> "."No Connection!";
+			echo alertDanger($msg);
+			return null;
+		}
+	}
+
 	public function update($hardware) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`update_Hardware`(:idHardware, :Hostname, :ip_address, :mac_address, :OperatingSystem);";
+				$statement = "CALL `NetworkInventory`.`update_Hardware`(:idHardware, :Hostname, :OperatingSystem);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
 				$stmt->bindParam(':idHardware', $hardware->idHardware());
 				$stmt->bindParam(':Hostname', $hardware->hostname());
-				$stmt->bindParam(':ip_address', $hardware->ipAddress());
-				$stmt->bindParam(':mac_address', $hardware->macAddress());
 				$stmt->bindParam(':OperatingSystem', $hardware->OperatingSystem()->idSoftware());
 				$stmt->execute();
 				$dbh = null;

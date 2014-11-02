@@ -114,11 +114,6 @@ class Software extends Model{
 
 class OperatingSystem extends Software{
 
-	function __construct($idOperatingSystem) {
-		$this->idSoftware = $idOperatingSystem;
-		$this->init_by_id($idOperatingSystem);
-	}
-
 	function select(){
 		print "Select";
 	}
@@ -141,14 +136,27 @@ class OperatingSystem extends Software{
 class Application extends Software{
 	private $idOperatingSystem;
 
-	function __construct($idOperatingSystem, $idSoftware) {
+	function __construct($idSoftware = null, $name = null, $version = null, $location = null, $idOperatingSystem=null) {
+		$this->idSoftware = $idSoftware;
+		$this->location = $location;
+		$this->name = $name;
+		$this->version = $version;
+		$this->vulnerability = null;
+		$this->notes = null;
 		$this->idOperatingSystem = $idOperatingSystem;
-		$this->init_by_id($idSoftware);
+
 	}
 
 	function hardware($idHardware){
-		echo $idHardware."Hardware_Application";
 		return null;
+	}
+
+	function idOperatingSystem($value=null) {
+		if (empty($value)) {
+			return $this->idOperatingSystem;
+		} else {
+			return $this->idOperatingSystem;
+		}
 	}
 
 	function __toString() {

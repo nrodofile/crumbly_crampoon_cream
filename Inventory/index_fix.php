@@ -3,11 +3,12 @@ include_once 'classes/includes.php';
 include_once 'views/includes.php';
 include_once 'components/includes.php';
 
-$model = new Fix(null, "Patch System");
+$model = new Fix();
 $view = new FixView($model);
 $nav = new NavbarView();
-$view->input_form();
-$output = $view->output_form();
+//$view->input_form();
+$output = $view->input_form();
+//$output = $view->output_form();
 $container = new PanelContainerView();
 //$sv->input_form();
 
@@ -29,8 +30,11 @@ $container = new PanelContainerView();
 
 <?php
 $title = 'Fix';
+
 echo $nav->show($title);
+echo $container->db_message($title);
 echo $container->display($title, $output);
+echo $container->display('Fixes', $view->list_all());
 
 ?>
 

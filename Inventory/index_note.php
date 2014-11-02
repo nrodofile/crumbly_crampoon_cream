@@ -3,9 +3,10 @@ include_once 'classes/includes.php';
 include_once 'views/includes.php';
 include_once 'components/includes.php';
 
-$model = new Vulnerability();
-$view = new VulnerabilityView($model);
+$model = new Note();
+$view = new NoteView($model);
 $nav = new NavbarView();
+//$view->input_form();
 $output = $view->input_form();
 //$output = $view->output_form();
 $container = new PanelContainerView();
@@ -28,12 +29,12 @@ $container = new PanelContainerView();
 <body>
 
 <?php
-$title = 'Vulnerability';
+$title = 'Note';
 
 echo $nav->show($title);
 echo $container->db_message($title);
 echo $container->display($title, $output);
-echo $container->display('Vulnerabilities', $view->list_all());
+echo $container->display('Notes', $view->list_all());
 
 ?>
 

@@ -16,15 +16,18 @@ class NetworkController extends Controller{
 				$stmt->bindParam(':idNetwork', $network->idNetwork());
 				$stmt->bindParam(':address', $network->address());
 				$stmt->bindParam(':name', $network->name());
-				$stmt->execute();
+				$result = $stmt->execute();
 				$dbh = null;
+				return $result;
 			} catch (PDOException $e) {
 				$msg = "<strong>Error!:</strong> " . $e->getMessage();
 				echo alertDanger($msg);
+				return null;
 			}
 		} else {
 			$msg = "<strong>Error!:</strong> "."No Connection!";
 			echo alertDanger($msg);
+			return null;
 		}
 	}
 
@@ -60,8 +63,9 @@ class NetworkController extends Controller{
 				$stmt->bindParam(':idNetwork', $network->idNetwork());
 				$stmt->bindParam(':address', $network->address());
 				$stmt->bindParam(':name', $network->name());
-				$stmt->execute();
+				$result = $stmt->execute();
 				$dbh = null;
+				return $result;
 			} catch (PDOException $e) {
 				$msg = "<strong>Error!:</strong> " . $e->getMessage();
 				echo alertDanger($msg);
@@ -81,8 +85,9 @@ class NetworkController extends Controller{
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
 				$stmt->bindParam(':idNetwork', $network->idNetwork());
-				$stmt->execute();
+				$result = $stmt->execute();
 				$dbh = null;
+				return $result;
 			} catch (PDOException $e) {
 				$msg = "<strong>Error!:</strong> " . $e->getMessage();
 				echo alertDanger($msg);

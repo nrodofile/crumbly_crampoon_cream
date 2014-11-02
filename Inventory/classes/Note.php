@@ -15,13 +15,13 @@ class Note  extends Model{
     private $user;
 
 	function __construct($idNote = null, $note = null,
-						 $subject = null, $added = null, $modified = null, $user = null) {
-		$this->added = $added;
+						 $subject = null, $user = null) {
+		$this->added = null;
 		$this->idNote = $idNote;
-		$this->modified = $modified;
+		$this->modified = null;
 		$this->note = $note;
 		$this->subject = $subject;
-		$this->user = $user;
+		$this->user = 1;
 	}
 
 	/**

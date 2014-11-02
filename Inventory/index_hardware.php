@@ -3,11 +3,11 @@ include_once 'classes/includes.php';
 include_once 'views/includes.php';
 include_once 'components/includes.php';
 
-$hw = new Hardware(null, "master", "10.191.181.2", null, "1");
-$hv = new HardwareView($hw);
+$model = new Hardware();
+$view = new HardwareView($model);
 $nav = new NavbarView();
-$hv->input_form();
-$output = $hv->output_form();
+$output = $view->input_form();
+//$output = $view->output_form();
 $container = new PanelContainerView();
 //$sv->input_form();
 
@@ -31,7 +31,9 @@ $container = new PanelContainerView();
 
 $title = 'Hardware';
 echo $nav->show($title);
+echo $container->db_message($title);
 echo $container->display($title, $output);
+echo $container->display('All Hardware', $view->list_all());
 
 ?>
 

@@ -16,8 +16,31 @@ class SoftwareController extends Controller{
 				$stmt->bindParam(':name', $software->name());
 				$stmt->bindParam(':version', $software->version());
 				$stmt->bindParam(':Location', $software->location());
-				$stmt->execute();
+				$result = $stmt->execute();
 				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+				return null;
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> "."No Connection!";
+			echo alertDanger($msg);
+			return null;
+		}
+	}
+
+	public function select() {
+		if($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`select_Software`();";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->execute();
+				$result = $stmt->fetchall();
+				$dbh = null;
+				return $result;
 			} catch (PDOException $e) {
 				$msg = "<strong>Error!:</strong> " . $e->getMessage();
 				echo alertDanger($msg);
@@ -102,20 +125,27 @@ class OperatingSystemController extends Controller{
 	public function create($os) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`create_OperatingSystem`(:idOperatingSystem);";
+				$statement = "CALL `NetworkInventory`.`create_OperatingSystem`(:idSoftware, :name, :version, :Location);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
-				$stmt->bindParam(':idOperatingSystem', $os->idSoftware());
-				$stmt->execute();
+				$stmt->bindParam(':idSoftware', $os->idSoftware());
+				$stmt->bindParam(':name', $os->name());
+				$stmt->bindParam(':version', $os->version());
+				$stmt->bindParam(':Location', $os->location());
+				$result = $stmt->execute();
 				$dbh = null;
+				return $result;
 			} catch (PDOException $e) {
 				$msg = "<strong>Error!:</strong> " . $e->getMessage();
 				echo alertDanger($msg);
+				return null;
 			}
 		} else {
 			$msg = "<strong>Error!:</strong> "."No Connection!";
 			echo alertDanger($msg);
+			return null;
 		}
+
 	}
 
 
@@ -128,6 +158,28 @@ class OperatingSystemController extends Controller{
 				$stmt->bindParam(':idOperatingSystem', $os->idSoftware());
 				$stmt->execute();
 				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+				return null;
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> "."No Connection!";
+			echo alertDanger($msg);
+			return null;
+		}
+	}
+
+	public function select() {
+		if($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`select_OperatingSystem`();";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->execute();
+				$result = $stmt->fetchall();
 				$dbh = null;
 				return $result;
 			} catch (PDOException $e) {
@@ -168,14 +220,129 @@ class OperatingSystemController extends Controller{
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
 				$stmt->bindParam(':idOperatingSystem', $os->idSoftware());
-				$stmt->execute();
+				$result = $stmt->execute();
 				$dbh = null;
+				return $result;
 			} catch (PDOException $e) {
 				$msg = "<strong>Error!:</strong> " . $e->getMessage();
 				echo alertDanger($msg);
 			}
 		} else {
 			$msg = "<strong>Error!:</strong> "."No Connection!";
+			echo alertDanger($msg);
+		}
+	}
+}
+
+class ApplicationController extends Controller {
+
+	public function create($application) {
+		if ($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`create_Application`(NUll, :idOperatingSystem, :name, :version, :Location);";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->bindParam(':idOperatingSystem', $application->idOperatingSystem());
+				$stmt->bindParam(':name', $application->name());
+				$stmt->bindParam(':version', $application->version());
+				$stmt->bindParam(':Location', $application->location());
+				$result = $stmt->execute();
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+				return null;
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> " . "No Connection!";
+			echo alertDanger($msg);;
+			return null;
+		}
+	}
+
+
+	public function read($os) {
+		if ($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`read_Application`(:idSoftware);";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->bindParam(':idSoftware', $os->idSoftware());
+				$stmt->execute();
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+				return null;
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> " . "No Connection!";
+			echo alertDanger($msg);
+			return null;
+		}
+	}
+
+	public function select() {
+		if ($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`select_Application`();";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->execute();
+				$result = $stmt->fetchall();
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+				return null;
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> " . "No Connection!";
+			echo alertDanger($msg);
+			return null;
+		}
+	}
+
+	public function update($os) {
+		if ($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`update_Application`(:idOperatingSystem);";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->bindParam(':idOperatingSystem', $os->idSoftware());
+				$result = $stmt->execute();
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> " . "No Connection!";
+			echo alertDanger($msg);
+		}
+	}
+
+	public function delete($os) {
+		if ($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`delete_Application`(:idOperatingSystem);";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->bindParam(':idOperatingSystem', $os->idSoftware());
+				$result = $stmt->execute();
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> " . "No Connection!";
 			echo alertDanger($msg);
 		}
 	}

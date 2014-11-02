@@ -16,15 +16,40 @@ class FixController extends Controller{
 				$stmt = $dbh->prepare($statement);
 				$stmt->bindParam(':idFix', $fix->idFix());
 				$stmt->bindParam(':description', $fix->description());
-				$stmt->execute();
+				$result = $stmt->execute();
 				$dbh = null;
+				return $result;
 			} catch (PDOException $e) {
 				$msg = "<strong>Error!:</strong> " . $e->getMessage();
 				echo alertDanger($msg);
+				return null;
 			}
 		} else {
 			$msg = "<strong>Error!:</strong> "."No Connection!";
 			echo alertDanger($msg);
+			return null;
+		}
+	}
+
+	public function select() {
+		if ($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`select_Fix`();";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->execute();
+				$result = $stmt->fetchall();
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+				return null;
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> " . "No Connection!";
+			echo alertDanger($msg);
+			return null;
 		}
 	}
 

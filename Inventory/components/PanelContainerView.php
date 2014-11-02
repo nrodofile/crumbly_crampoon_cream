@@ -26,4 +26,25 @@ class PanelContainerView {
 </div>';
 	}
 
+	public function db_message($title){
+		$output = '
+			<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">';
+
+			if ( isset($_GET['r'])){
+	if($_GET['r'] == 'success'){
+		$output .= '<div class="alert alert-success" role="alert">'.$title.': Successfully Added!</div>';
+	} else {
+		$output .= '<div class="alert alert-danger" role="alert">'.$title.': Failed to Add</div>';
+	}
+}
+		$output .='</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>';
+		return $output;
+	}
+
 } 

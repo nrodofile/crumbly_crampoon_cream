@@ -6,4 +6,5 @@ include_once 'Input.php';
 include_once 'NetworkView.php';
 include_once 'SoftwareView.php';
 include_once 'VulnerabilityView.php';
+include_once 'NoteView.php';
 ?>
