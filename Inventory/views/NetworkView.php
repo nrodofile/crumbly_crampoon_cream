@@ -39,7 +39,9 @@ class NetworkView extends View {
 		$output .= $this->hardware;
 		$output .= $this->notes;
 		$output .= $this->vulnerability;
+		$output .= '<div class="btn-group pull-right">';
 		$output .= '<input type="submit" value="'.$submit.'" class="btn btn-success">';
+		$output .= '</div>';
 		$output .= '</form>';
 		return $output;
 	}
@@ -93,6 +95,86 @@ class NetworkView extends View {
         <tr>
           <td>'.$item['name'].'</td>
           <td>'.$item['address'].'</td>
+        </tr>';
+		}
+		$output .= '
+				</tbody>
+			</table>';
+
+		return $output;
+	}
+}
+
+class NetworkHardwareView extends View{
+	private $idNetwork;
+	private $idHardware;
+	private $ip_address;
+	private $mac_address;
+	private $controller;
+	private $networkHardware;
+
+	function __construct($networkHardware) {
+		$this->networkHardware = $networkHardware;
+		$this->controller = new NetworkHardwareController();
+		$this->idHardware = new Hidden("id_idHardware", "ID Hardware", $networkHardware->idHardware(), "idHardware");
+		$this->idNetwork = new Hidden("id_idNetwork", "ID Network",  $networkHardware->idNetwork(), "idNetwork");
+		$this->ip_address = new Text("id_ip_address", "IP Address",  $networkHardware->ip_address(), "ip_address");
+		$this->mac_address = new Text("id_mac_address", "MAC Address",  $networkHardware->mac_address(), "mac_address");
+	}
+
+
+	public function input_form($action="insert.php", $value="insert_networkHardware", $submit="Add Network Connection", $id=null) {
+		$output = '<form class="form-horizontal" role="form" action="'.$action.'" method="post">';
+		$output .= '<input type="hidden" name="form" value="'.$value.'">';
+		$output .= '<input type="hidden" name="idHardware" value="'.$id.'">';
+		$network = new Network($this->idNetwork);
+		$network_view = new NetworkView($network);
+		$output .= $network_view->select();
+		$output .= $this->ip_address->input();
+		$output .= $this->mac_address->input();
+		$output .= '<input type="submit" value="'.$submit.'" class="btn btn-success">';
+		$output .= '</div>';
+		$output .= '</form>';
+		return $output;
+	}
+
+	public function output_form() {
+		// TODO: Implement output_form() method.
+	}
+
+	public function select() {
+		// TODO: Implement select() method.
+	}
+
+	public function multi_select() {
+		// TODO: Implement multi_select() method.
+	}
+
+	public function  hardwareNetwork($hardware){
+		$list = $this->controller->select_network($hardware);
+		return $this->list_all($list);
+	}
+
+	public function list_all($list=null) {
+		$output = '';
+		$output .= '<table class="table table-hover">';
+		$output .= '
+				<thead>
+					<tr>
+					  <th>IP Address</th>
+					  <th>Mac Address</th>
+					  <th>Network</th>
+					</tr>
+				</thead>
+				<tbody>';
+
+
+		foreach ($list as $item){
+			$output .= '
+        <tr>
+          <td>'.$item['ip_address'].'</td>
+          <td>'.$item['mac_address'].'</td>
+          <td>'.$item['Network'].'</td>
         </tr>';
 		}
 		$output .= '

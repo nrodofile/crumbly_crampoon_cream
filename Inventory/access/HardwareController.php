@@ -36,13 +36,36 @@ class HardwareController extends Controller{
 	public function read($hardware) {
 		if($this->conn != null) {
 			try {
-				$statement = "CALL `NetworkInventory`.`read_Hardware`(:idHardware);
-";
+				$statement = "CALL `NetworkInventory`.`read_Hardware`(:idHardware);";
 				$dbh = $this->conn;
 				$stmt = $dbh->prepare($statement);
 				$stmt->bindParam(':idHardware', $hardware->idHardware());
 				$stmt->execute();
 				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$dbh = null;
+				return $result;
+			} catch (PDOException $e) {
+				$msg = "<strong>Error!:</strong> " . $e->getMessage();
+				echo alertDanger($msg);
+				return null;
+			}
+		} else {
+			$msg = "<strong>Error!:</strong> "."No Connection!";
+			echo alertDanger($msg);
+			return null;
+		}
+	}
+
+	public function addApplication($hardware, $software) {
+		if($this->conn != null) {
+			try {
+				$statement = "CALL `NetworkInventory`.`create_Hardware_has_Application`(:Hardware, :Application);
+";
+				$dbh = $this->conn;
+				$stmt = $dbh->prepare($statement);
+				$stmt->bindParam(':Hardware', $hardware);
+				$stmt->bindParam(':Application', $software);
+				$result = $stmt->execute();
 				$dbh = null;
 				return $result;
 			} catch (PDOException $e) {

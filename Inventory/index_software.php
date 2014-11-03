@@ -3,6 +3,18 @@ include_once 'classes/includes.php';
 include_once 'views/includes.php';
 include_once 'components/includes.php';
 
+$id = filter($_GET['id']);
+$model = null;
+if(isset($id)){
+	$application = Application::getByID($id);
+	$app = $application->idSoftware();
+	if (isset($app)){
+		header("Location: index_application.php?r=".$_GET['r']."&id=".$id);
+	}
+} else {
+	$model = new Application();
+}
+
 $model = new Software();
 $view = new SoftwareView($model);
 $nav = new NavbarView();
@@ -32,7 +44,9 @@ $title = 'Software';
 echo $nav->show($title);
 echo $container->db_message($title);
 echo $container->display($title, $output);
-echo $container->display('All Software', $view->list_all());
+echo $container->display('All Software', $view->all());
+
+
 
 ?>
 

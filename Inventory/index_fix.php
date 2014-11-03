@@ -6,11 +6,12 @@ include_once 'components/includes.php';
 $model = new Fix();
 $view = new FixView($model);
 $nav = new NavbarView();
-//$view->input_form();
 $output = $view->input_form();
-//$output = $view->output_form();
 $container = new PanelContainerView();
-//$sv->input_form();
+$modal = new ModalView();
+$note = new Note();
+$note_view = new NoteView($note);
+
 
 
 ?>
@@ -35,6 +36,7 @@ echo $nav->show($title);
 echo $container->db_message($title);
 echo $container->display($title, $output);
 echo $container->display('Fixes', $view->list_all());
+echo $modal->note_model($note_view->input_form());
 
 ?>
 

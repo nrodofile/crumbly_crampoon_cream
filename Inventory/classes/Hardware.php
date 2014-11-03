@@ -27,14 +27,23 @@ class Hardware extends Model{
 		$this->vulnerability = null;
 	}
 
+	public function getById($id){
+		$controller = new HardwareController();
+		$hardware = new self($id);
+		$item = $controller->read($hardware);
+		$hardware->hostname($item['Hostname']);
+		$hardware->OperatingSystem($item['OperatingSystem']);
+		return $hardware;
+	}
+
 	/**
 	 * @return Hidden value
 	 */
 	public function idHardware($value=Null) {
 		if (empty($value)) {
-			return $this->idHardware->value;
+			return $this->idHardware;
 		} else {
-			$this->idHardware->value = $value;
+			$this->idHardware = $value;
 		}
 	}
 
@@ -52,8 +61,12 @@ class Hardware extends Model{
 	/**
 	 * @return OperatingSystem
 	 */
-	public function OperatingSystem() {
-		return $this->OperatingSystem;
+	public function OperatingSystem($value=Null) {
+		if (empty($value)) {
+			return $this->OperatingSystem;
+		} else {
+			$this->OperatingSystem = $value;
+		}
 	}
 
 	function network(){

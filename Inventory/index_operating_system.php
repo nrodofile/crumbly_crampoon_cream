@@ -32,7 +32,7 @@ $title = 'Operating System';
 echo $nav->show($title);
 echo $container->db_message($title);
 echo $container->display($title, $output);
-echo $container->display('Operating System', $view->list_all());
+echo $container->display('Operating System', $view->all());
 
 ?>
 

@@ -25,9 +25,10 @@ class FixView extends View {
 
 	}
 
-	public function input_form($action="insert.php", $value="insert_fix", $submit="Add Fix") {
+	public function input_form($action="insert.php", $value="insert_fix", $submit="Add Fix", $id=null) {
 		$output = '<form class="form-horizontal" role="form" action="'.$action.'" method="post">';
 		$output .= '<input type="hidden" name="form" value="'.$value.'">';
+		$output .= '<input type="hidden" name="model_id" value="'.$value.'">';
 		$output .= $this->idFix->input();
 		$output .= $this->description->input();
 		$output .= $this->software;

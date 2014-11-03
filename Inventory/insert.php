@@ -5,6 +5,7 @@
  */
 include_once 'classes/includes.php';
 include_once 'access/includes.php';
+include_once 'components/includes.php';
 
 $host  = $_SERVER['HTTP_HOST'];
 
@@ -33,27 +34,17 @@ if(isset($_POST['form'])){
 	} elseif($_POST['form'] == 'insert_note'){
 		$result = insert_note();
 		header("Location: index_note.php?r=".sql_result($result));
+	} elseif($_POST['form'] == 'insert_networkHardware'){
+		$result = insert_networkHardware();
+		header("Location: index_hardware.php?r=".sql_result($result).'&id='.$_POST['idHardware']);
+	} elseif($_POST['form'] == 'insert_hardwareApplication'){
+		$result = insert_hardwareApplication();
+		header("Location: index_hardware.php?r=".sql_result($result).'&id='.$_POST['model_id']);
 	} else {
 		header("Location:index.php");
 	}
 } else {
 	header("Location:index.php");
-}
-
-function sql_result($result){
-	if (empty($result)){
-		return "fail";
-	} else {
-		return "success";
-	}
-}
-
-function filter($input){
-	$input = strip_tags($input);
-	if(empty($input)){
-		$input = null;
-	}
-	return $input;
 }
 
 function insert_network(){
@@ -130,4 +121,27 @@ function insert_note(){
 	$note = new Note(null, $note, $subject, $user);
 	$controller = new NoteController();
 	return $controller->create($note);
+}
+
+function insert_networkHardware(){
+	$idNetwork = filter($_POST['network']);
+	$idHardware = filter($_POST['idHardware']);
+	$ip_address = filter($_POST['ip_address']);
+	$mac_address = filter($_POST['mac_address']);
+
+	$connection = new NetworkHardware($idNetwork, $idHardware, $ip_address, $mac_address);
+	$controller = new NetworkHardwareController();
+	return $controller->create($connection);
+}
+
+function insert_hardwareApplication(){
+	$idHardware = filter($_POST['model_id']);
+	$controller = new HardwareController();
+	$result = true;
+	foreach ($_POST['options'] as $Application){
+		if (!$controller->addApplication($idHardware, $Application)){
+			$result = false;
+		}
+	}
+	return $result;
 }

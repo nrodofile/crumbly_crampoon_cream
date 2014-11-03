@@ -31,9 +31,10 @@ class NoteView extends View{
 
 	}
 
-	public function input_form($action="insert.php", $value="insert_note", $submit="Add Note") {
+	public function input_form($action="insert.php", $value="insert_note", $submit="Add Note", $id = null) {
 		$output = '<form class="form-horizontal" role="form" action="'.$action.'" method="post">';
 		$output .= '<input type="hidden" name="form" value="'.$value.'">';
+		$output .= '<input type="hidden" name="model_id" value="'.$id.'">';
 		$output .= $this->idNote->input();
 		$output .= $this->subject->input();
 		$output .= $this->note->input();
@@ -55,7 +56,7 @@ class NoteView extends View{
 		return $output;
 	}
 
-	public function list_all() {
+	public function list_all($list = array()) {
 		$output = '';
 		$output .= '<table class="table table-hover">';
 		$output .= '
@@ -68,7 +69,9 @@ class NoteView extends View{
 				</thead>
 				<tbody>';
 		$count = 0;
-		$list = $this->controller->select();
+		#if (empty($list)) {
+		#	$list = $this->controller->select();
+		#}
 		foreach ($list as $item){
 			$count += 1;
 			$output .= '
@@ -84,6 +87,16 @@ class NoteView extends View{
 			</table>';
 
 		return $output;
+	}
+
+	public function hardware($hardware){
+		$list = $this->controller->select_hardware($hardware);
+		return $this->list_all($list);
+	}
+
+	public function software($software){
+		$list = $this->controller->select_software($software);
+		return $this->list_all($list);
 	}
 
 	public function select() {

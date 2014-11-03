@@ -25,4 +25,20 @@
 	function alertDanger($msg){
 		return alert("alert-danger", $msg);
 	}
+
+	function filter($input){
+		$input = strip_tags($input);
+		if(empty($input)){
+			$input = null;
+		}
+		return $input;
+	}
+
+	function sql_result($result){
+		if (empty($result)){
+			return "fail";
+		} else {
+			return "success";
+		}
+	}
 ?>

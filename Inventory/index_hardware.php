@@ -3,13 +3,32 @@ include_once 'classes/includes.php';
 include_once 'views/includes.php';
 include_once 'components/includes.php';
 
-$model = new Hardware();
-$view = new HardwareView($model);
+$id = filter($_GET['id']);
+$model = null;
+if(isset($id)){
+	$model = Hardware::getByID($id);
+} else {
+	$model = new Hardware();
+}
+
 $nav = new NavbarView();
-$output = $view->input_form();
-//$output = $view->output_form();
 $container = new PanelContainerView();
-//$sv->input_form();
+$view = new HardwareView($model);
+
+
+$modal = new ModalView();
+$note = new Note();
+$networkConnection = new NetworkHardware();
+$application = new Application();
+$fix = new Fix();
+$vulnerability = new Vulnerability();
+
+
+$application_view = new ApplicationView($application);
+$note_view = new NoteView($note);
+$connection_view = new NetworkHardwareView($networkConnection);
+$fix_view = new FixView($fix);
+$vulnerability_view = new VulnerabilityView($vulnerability);
 
 
 ?>
@@ -32,8 +51,28 @@ $container = new PanelContainerView();
 $title = 'Hardware';
 echo $nav->show($title);
 echo $container->db_message($title);
-echo $container->display($title, $output);
-echo $container->display('All Hardware', $view->list_all());
+
+if(isset($id)){
+	$output = $view->output_form();
+	echo $container->display($title, $output);
+	echo $container->display('Network', $connection_view->hardwareNetwork($model));
+	echo $container->display('Notes', $note_view->hardware($model));
+	echo $container->display('Applications', $application_view->select_Hardware_has_Application($id));
+	echo $container->display('Vulnerabilities', $vulnerability_view->list_all());
+
+
+	echo $modal->networkHardware_model($connection_view->input_form("insert.php", "insert_networkHardware","Add Network Connection", $id));
+	echo $modal->application_model($application_view->select_by_operatingSystem($model->OperatingSystem(), $id));
+	echo $modal->vulnerability_model($vulnerability_view->input_form("insert.php", "insert_hardwareVulnerability","Add Vulnerability", $id));
+	echo $modal->note_model($note_view->input_form("insert_note.php", "note_hardware", "Add Note", $id));
+
+} else {
+	$output = $view->input_form();
+	echo $container->display($title, $output);
+	echo $container->display('All Hardware', $view->list_all());
+}
+
+
 
 ?>
 

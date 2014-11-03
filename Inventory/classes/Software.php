@@ -23,6 +23,13 @@ class Software extends Model{
 		$this->notes = null;
 	}
 
+	public function getById($id){
+		$controller = new SoftwareController();
+		$d = $controller->read($id);
+		$software = new self($d['idSoftware'], $d['name'], $d['version'], $d['Location']);
+		return $software;
+	}
+
 	/**
 	 * @return mixed
 	 */
@@ -114,6 +121,13 @@ class Software extends Model{
 
 class OperatingSystem extends Software{
 
+	public function getById($id){
+		$controller = new SoftwareController();
+		$d = $controller->read($id);
+		$software = new self($d['idSoftware'], $d['name'], $d['version'], $d['Location']);
+		return $software;
+	}
+
 	function select(){
 		print "Select";
 	}
@@ -149,6 +163,13 @@ class Application extends Software{
 
 	function hardware($idHardware){
 		return null;
+	}
+
+	public function getById($id){
+		$controller = new ApplicationController();
+		$d = $controller->read($id);
+		$software = new self($d['idSoftware'], $d['name'], $d['version'], $d['Location'], $d['idOperatingSystem']);
+		return $software;
 	}
 
 	function idOperatingSystem($value=null) {

@@ -47,21 +47,31 @@ class HardwareView extends View{
 		$output .= $this->applications;
 		$output .= $this->notes;
 		$output .= $this->vulnerability;
+		$output .= '<div class="btn-group pull-right">';
 		$output .= '<input type="submit" value="'.$submit.'" class="btn btn-success">';
+		$output .= '</div>';
 		$output .= '</form>';
 		return $output;
 	}
 
 	public function output_form() {
+		$os_view = new OperatingSystemView($this->OperatingSystem);
 		$output = '<form class="form-horizontal" role="form">';
 		$output .= $this->idHardware->input();
 		$output .= $this->hostname->output();
 		$output .= $this->network;
-		$output .= $this->OperatingSystem->output();
+		$output .= $os_view->select()->input();
 		$output .= $this->connections;
 		$output .= $this->applications;
 		$output .= $this->notes;
 		$output .= $this->vulnerability;
+		$output .= '<div class="btn-group pull-right">';
+		$output .= '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#note_modal">Add Note</button>';
+		$output .= '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#networkHardware_modal">Add Network Conenction</button>';
+		$output .= '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#application_modal">Add Application</button>';
+		$output .= '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vulnerability_modal">Add Vulnerability</button>';
+		$output .= '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fix_modal">Add Fix</button>';
+		$output .= '</div>';
 		$output .= '</form>';
 		return $output;
 	}
@@ -90,7 +100,7 @@ class HardwareView extends View{
 		foreach ($list as $item){
 			$output .= '
         <tr>
-          <td>'.$item['Hostname'].'</td>
+          <td><a href="index_hardware.php?id='.$item['idHardware'].'">'.$item['Hostname'].'</a></td>
           <td>'.$item['OperatingSystem'].'</td>
         </tr>';
 		}
